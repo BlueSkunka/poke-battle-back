@@ -38,7 +38,7 @@ await app
 		openapi: {
 			openapi: "3.0.0",
 			info: {
-				title: "Documentation de l'API JDR LOTR",
+				title: "Documentation de l'API POKE BATTLE",
 				description:
 					"API développée pour un exercice avec React avec Fastify et Sequelize",
 				version: "0.1.0",
@@ -48,7 +48,7 @@ await app
 	.register(fastifySwaggerUi, {
 		routePrefix: "/documentation",
 		theme: {
-			title: "Docs - JDR LOTR API",
+			title: "Docs - POKE BATTLE API",
 		},
 		uiConfig: {
 			docExpansion: "list",
@@ -70,7 +70,7 @@ await app
 		transformSpecificationClone: true,
 	})
 	.register(fastifyJWT, {
-		secret: "unanneaupourlesgouvernertous",
+		secret: "arceuslecreateur",
 	});
 /**********
  * Routes
