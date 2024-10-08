@@ -1,5 +1,6 @@
 import User from "../models/users.js";
 import { Op } from "sequelize";
+import nodemailer from "nodemailer";
 
 async function generateID(id) {
 	const { count } = await findAndCountAllUsersById(id);
@@ -80,7 +81,23 @@ export async function registerUser(userDatas, bcrypt) {
 		email,
 		password: hashedPassword,
 	};
-	return await User.create(user);
+	const createdUser = await User.create(user)
+
+	const transporter = nodemailer.createTransport(
+		{
+			host: "127.0.0.1",
+			port: 1025,
+		}
+	)
+	
+	transporter.sendMail({
+		from: 'pokebattle@yopmail.com',
+		to: createdUser.email,
+		subject: 'Validation du compte PokeBattle',
+		html: 'mjml'
+	})
+
+	return createdUser;
 }
 export async function loginUser(userDatas, app) {
 	if (!userDatas) {
