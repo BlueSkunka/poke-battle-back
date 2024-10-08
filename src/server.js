@@ -11,6 +11,7 @@ import { usersRoutes } from "./routes/users.js";
 import { gamesRoutes } from "./routes/games.js";
 //bdd
 import { sequelize } from "./bdd.js";
+import {pingRoutes} from "./routes/ping.js";
 
 //Test de la connexion
 try {
@@ -98,6 +99,8 @@ app.decorate("authenticate", async (request, reply) => {
 usersRoutes(app,blacklistedTokens);
 //gestion des jeux
 gamesRoutes(app);
+//gestion des routes de test
+pingRoutes(app);
 
 /**********
  * START
