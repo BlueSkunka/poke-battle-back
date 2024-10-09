@@ -2,7 +2,7 @@ import {
 	getUserById,
 	getUsers,
 	loginUser,
-	registerUser,
+	registerUser, validateEmail,
 } from "../controllers/users.js";
 export function usersRoutes(app, blacklistedTokens ) {
 	app.post("/login", async (request, reply) => {
@@ -31,4 +31,8 @@ export function usersRoutes(app, blacklistedTokens ) {
 	app.get("/users/:id", async (request, reply) => {
 		reply.send(await getUserById(request.params.id));
 	});
+	//validation du compte utilisateur
+	app.get("/users/:id/validate", async (request, reply) => {
+		reply.send(await validateEmail(request.params.id));
+	})
 }

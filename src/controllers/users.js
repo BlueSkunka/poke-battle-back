@@ -90,7 +90,11 @@ export async function registerUser(userDatas, bcrypt) {
 			port: 1025,
 		}
 	)
-
+	const replacers = {
+		link: {
+			attributes: {href: 'http://localhost/5173/users/' + user.id + '/valdiate'}
+		}
+	}
 	const htmlOutput = mjml2html(`
 <mjml>
   <mj-head>
@@ -133,7 +137,7 @@ export async function registerUser(userDatas, bcrypt) {
         <mj-text>
           <p>Hello there!</p>
           <p> Welcome to the world of Pokemon ! You joinded the PokeBattle league specialise into High Ranking Pokemon Battle, even harder than the classic Pokemon league ! </p>
-          <p>But before we can let you join the PokeBattle league, we require you validate your email through the bellow link: </p>
+          <p>But before we can let you join the PokeBattle league, we require you validate your email through the bellow link: <a href=""  mj-replace-id="link">Valider mon comtpe</a></p>
           <p>Once it's done, you may start to create your best Pokemon Teams and battle every dressors around the world !</p>
         </mj-text>
       </mj-column>
@@ -236,4 +240,14 @@ export async function loginUser(userDatas, app) {
 		{ expiresIn: "3h" }
 	);
 	return { token };
+}
+export async function validateEmail(id) {
+	const user = await User.findByPk(id);
+	if (!user) {
+		return { error: "Utilisateur non trouvé"}
+	}
+
+	user.verified = true;
+	await user.save()
+	return {verified: user.verified};
 }
