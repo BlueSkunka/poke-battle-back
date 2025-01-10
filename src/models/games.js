@@ -17,6 +17,15 @@ const Game = sequelize.define("game", {
 		allowNull: false,
 		defaultValue: "pending",
 	},
+	joiningCode: {
+		type: DataTypes.CHAR,
+		allowNull: true,
+	},
+	isPublic: {
+		type: DataTypes.BOOLEAN,
+		allowNull: false,
+		defaultValue: true
+	}
 });
 Game.belongsTo(User, { targetKey: "id", foreignKey: "creator", as: "player1" });
 Game.belongsTo(User, {

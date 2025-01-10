@@ -1,11 +1,13 @@
 import Game from "../models/games.js";
+import generateJoiningCode from "../services/gameService.js";
 
 export async function createGame(userId) {
 	if (!userId) {
 		return { error: "L'identifiant du joueur est manquant" };
 	}
-	const datas = await Game.create({ creator: userId });
-	console.log(datas.dataValues.id);
+	const joiningCode = await generateJoiningCode();
+	const datas = await Game.create({ creator: userId, joiningCode: joiningCode });
+
 	return { gameId: datas.dataValues.id };
 }
 

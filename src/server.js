@@ -6,6 +6,7 @@ import cors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastifyJWT from "@fastify/jwt";
+import socketioServer from "fastify-socket.io";
 //routes
 import { usersRoutes } from "./routes/users.js";
 import { gamesRoutes } from "./routes/games.js";
@@ -13,6 +14,9 @@ import { gamesRoutes } from "./routes/games.js";
 import { sequelize } from "./bdd.js";
 import {pingRoutes} from "./routes/ping.js";
 
+import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/PokeBattleSocketEvents.js";
+import games from "./models/games.js";
+import Game from "./models/games.js";
 //Test de la connexion
 try {
 	sequelize.authenticate();
@@ -34,6 +38,11 @@ await app
 	})
 	.register(cors, {
 		origin: "*",
+	})
+	.register(socketioServer, {
+		cors: {
+			origin: "*"
+		}
 	})
 	.register(fastifySwagger, {
 		openapi: {
@@ -101,6 +110,36 @@ usersRoutes(app,blacklistedTokens);
 gamesRoutes(app);
 //gestion des routes de test
 pingRoutes(app);
+
+/**********
+ * SOCKET
+ **********/
+app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
+	console.log(`Joueur connecté : ${socket.id}`);
+
+
+	socket.on(PokeBattleSocketEvents.DISCONNECT, () => {
+		console.log(`Joueur déconnecté: ${socket.id}`)
+	})
+
+	socket.on(PokeBattleSocketEvents.TEST_EVENT, (data) => {
+		console.log(data)
+		socket.emit(PokeBattleSocketEvents.TEST_EVENT, {msg: "coucou"})
+	})
+
+	socket.on(PokeBattleSocketEvents.GAME_CREATE_ROOM, async (data) => {
+		console.log("join room", socket.id, data)
+		socket.join(data.gameId)
+
+		const game = await Game.findByPk(data.gameId)
+
+		app.io.to(data.gameId).emit(PokeBattleSocketEvents.GAME_ROOM_CREATED, {
+			'roomId': data.gameId,
+			'joinCode': game.dataValues.joiningCode
+		})
+	})
+
+})
 
 /**********
  * START

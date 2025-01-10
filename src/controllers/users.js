@@ -239,7 +239,7 @@ export async function loginUser(userDatas, app) {
 		{ id: user.id, username: user.username },
 		{ expiresIn: "3h" }
 	);
-	return { token };
+	return { token: token, userId: user.id, username: user.username };
 }
 export async function validateEmail(id) {
 	const user = await User.findByPk(id);
