@@ -1,4 +1,4 @@
-import { createGame, updateGame } from "../controllers/games.js";
+import {createGame, fetchGame, updateGame} from "../controllers/games.js";
 export function gamesRoutes(app) {
 	//création d'un jeu
 	app.post(
@@ -16,4 +16,12 @@ export function gamesRoutes(app) {
 			reply.send(await updateGame(request));
 		}
 	);
+	//récupérer une partie
+	app.get(
+		"/game/:gameId/:userId",
+		{ preHandler: [app.authenticate] },
+		async (request, reply) => {
+			reply.send(await fetchGame(request));
+		}
+	)
 }

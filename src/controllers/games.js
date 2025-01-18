@@ -61,3 +61,19 @@ export async function updateGame(request) {
 	game.save();
 	return game;
 }
+
+export async function fetchGame(request) {
+	if (request.params.length < 2) {
+		return { error: "Il manque des paramètres" };
+	}
+
+	const {gameId, userId} = request.params;
+
+	const game = await Game.findByPk(gameId);
+
+	if (game.dataValues.player != userId && game.dataValues.creator != userId) {
+		return {error: "Invalid player tried to fetch game data"}
+	}
+
+	return game;
+}

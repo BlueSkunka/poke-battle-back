@@ -135,7 +135,7 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 
 		app.io.to(data.gameId).emit(PokeBattleSocketEvents.GAME_ROOM_CREATED, {
 			'roomId': data.gameId,
-			'joinCode': game.dataValues.joiningCode
+			'joinCode': game.dataValues.joiningCode,
 		})
 	})
 
