@@ -14,9 +14,10 @@ import { gamesRoutes } from "./routes/games.js";
 import { sequelize } from "./bdd.js";
 import {pingRoutes} from "./routes/ping.js";
 
-import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/PokeBattleSocketEvents.js";
 import games from "./models/games.js";
 import Game from "./models/games.js";
+import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents.js";
+import User from "./models/users.js";
 //Test de la connexion
 try {
 	sequelize.authenticate();
@@ -128,14 +129,22 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 	})
 
 	socket.on(PokeBattleSocketEvents.GAME_CREATE_ROOM, async (data) => {
-		console.log("join room", socket.id, data)
-		socket.join(data.gameId)
-
+		console.log("game create", socket.id, data)
 		const game = await Game.findByPk(data.gameId)
 
-		app.io.to(data.gameId).emit(PokeBattleSocketEvents.GAME_ROOM_CREATED, {
-			'roomId': data.gameId,
-			'joinCode': game.dataValues.joiningCode,
+		console.log("Crating socket room", game.dataValues.id)
+		await socket.join(game.dataValues.id)
+	})
+
+	socket.on(PokeBattleSocketEvents.GAME_PLAYER_JOINING, async (data) => {
+		console.log("Joining room", data.roomId)
+		console.log(data)
+		await socket.join(data.roomId)
+
+
+		await socket.to(data.roomId).emit(PokeBattleSocketEvents.GAME_PLAYER_JOINED, {
+			'player': data.userId,
+			'gameId': data.roomId
 		})
 	})
 

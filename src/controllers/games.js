@@ -12,7 +12,6 @@ export async function createGame(userId) {
 }
 
 export async function updateGame(request) {
-	console.log(request.params);
 	const userId = request.body.userId;
 
 	if (request.params.length < 2) {
@@ -76,4 +75,8 @@ export async function fetchGame(request) {
 	}
 
 	return game;
+}
+
+export async function listGame() {
+	return await Game.findAll();
 }

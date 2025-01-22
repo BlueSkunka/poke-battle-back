@@ -6,7 +6,7 @@
 	"author": "blueskunka",
 	"type": "module",
 	"dependencies": {
-		"@blueskunka/poke-battle-package": "^1.0.3",
+		"@blueskunka/poke-battle-package": "^2.0.1",
 		"@fastify/cors": "^10.0.0",
 		"@fastify/jwt": "^9.0.0",
 		"@fastify/swagger": "^9.0.0",
