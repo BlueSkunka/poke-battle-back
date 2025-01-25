@@ -127,6 +127,7 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 		socket.emit(PokeBattleSocketEvents.TEST_EVENT, {msg: "coucou"})
 	})
 
+	// Un joueur a créé une partie et il rejoint maintenant la room dédiée
 	socket.on(PokeBattleSocketEvents.GAME_CREATE_ROOM, async (data) => {
 		console.log("game create", socket.id, data)
 		const game = await Game.findByPk(data.gameId)
@@ -134,18 +135,16 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 		console.log("Creating socket room", game.dataValues.id)
 		await socket.join(game.dataValues.id)
 	})
-	//
-	// socket.on(PokeBattleSocketEvents.GAME_PLAYER_JOINING, async (data) => {
-	// 	console.log("Joining room", data.roomId)
-	// 	console.log(data)
-	// 	await socket.join(data.roomId)
-	//
-	//
-	// 	await socket.to(data.roomId).emit(PokeBattleSocketEvents.GAME_PLAYER_JOINED, {
-	// 		'player': data.userId,
-	// 		'gameId': data.roomId
-	// 	})
-	// })
+
+	socket.on(PokeBattleSocketEvents.GAME_PLAYER_JOINING, async (data) => {
+		console.log("Joining room", data)
+		await socket.join(data.roomId)
+
+		await socket.to(data.roomId).emit(PokeBattleSocketEvents.GAME_PLAYER_JOINED, {
+			'player': data.userId,
+			'gameId': data.roomId
+		})
+	})
 
 })
 
