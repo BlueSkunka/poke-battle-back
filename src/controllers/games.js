@@ -6,9 +6,9 @@ export async function createGame(userId) {
 		return { error: "L'identifiant du joueur est manquant" };
 	}
 	const joiningCode = await generateJoiningCode();
-	const datas = await Game.create({ creator: userId, joiningCode: joiningCode });
+	const game = await Game.create({ creator: userId, joiningCode: joiningCode });
 
-	return { gameId: datas.dataValues.id };
+	return { game: game };
 }
 
 export async function updateGame(request) {

@@ -127,19 +127,13 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 		socket.emit(PokeBattleSocketEvents.TEST_EVENT, {msg: "coucou"})
 	})
 
-	socket.on(PokeBattleSocketEvents.GAME_CREATE_ROOM, (data) => {
-		console.log("join room", data)
-		socket.join("Maroom")
-		socket.to("Maroom").emit(PokeBattleSocketEvents.TEST_EVENT, {from: socket.id})
+	socket.on(PokeBattleSocketEvents.GAME_CREATE_ROOM, async (data) => {
+		console.log("game create", socket.id, data)
+		const game = await Game.findByPk(data.gameId)
+
+		console.log("Creating socket room", game.dataValues.id)
+		await socket.join(game.dataValues.id)
 	})
-	//
-	// socket.on(PokeBattleSocketEvents.GAME_CREATE_ROOM, async (data) => {
-	// 	console.log("game create", socket.id, data)
-	// 	const game = await Game.findByPk(data.gameId)
-	//
-	// 	console.log("Crating socket room", game.dataValues.id)
-	// 	await socket.join(game.dataValues.id)
-	// })
 	//
 	// socket.on(PokeBattleSocketEvents.GAME_PLAYER_JOINING, async (data) => {
 	// 	console.log("Joining room", data.roomId)
