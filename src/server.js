@@ -146,6 +146,32 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 		})
 	})
 
+	socket.on(PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT, async (data) => {
+		console.log("Game player disconnect", data)
+
+		socket.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT, {
+			'gameId': data.gameId,
+			'playerId': data.playerId
+		})
+	})
+
+	socket.on(PokeBattleSocketEvents.GAME_PLAYER_READY, async (data) => {
+		console.log('player is ready', data)
+
+		socket.broadcast.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_READY, {
+			'gameId': data.gameId,
+			'playerId': data.playerId
+		})
+	})
+
+	socket.on(PokeBattleSocketEvents.GAME_PLAYER_UNREADY, async (data) => {
+		console.log('player is not ready', data)
+
+		socket.broadcast.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_UNREADY, {
+			'gameId': data.gameId,
+			'playerId': data.playerId
+		})
+	})
 })
 
 /**********
