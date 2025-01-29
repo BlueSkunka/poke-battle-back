@@ -11,6 +11,31 @@ export async function createGame(userId) {
 	return { game: game };
 }
 
+/**
+ * Déconnecte un joueur de la partie depuis le lobby
+ * Si le joueur est le créateur, la partie sera supprimée
+ * Sinon met les données du joueur2 à null
+ * @param gameId Identifiant de la partie
+ * @param playerId identifiant du joueur ayant quitté la partie
+ * @returns {Promise<void>}
+ */
+export async function disconnectGame(gameId, playerId) {
+	const game = await Game.findByPk(gameId)
+
+	if (null == game) {
+		return;
+	}
+
+	// Si l'hôte qui le lobby : suppression de la partie
+	if (game.dataValues.creator === playerId) {
+		game.destroy()
+	} else {
+		// Sinon c'est le joueur 2 qui a quitté
+		await game.setPlayer2(null)
+		game.save()
+	}
+}
+
 export async function updateGame(request) {
 	const userId = request.body.userId;
 
@@ -41,6 +66,7 @@ export async function updateGame(request) {
 				return { error: "Cette partie n'est plus en attente." };
 			}
 			await game.setPlayer2(userId);
+			break;
 		case "start":
 			//update state
 			game.state = "playing";

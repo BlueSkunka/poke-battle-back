@@ -18,6 +18,7 @@ import games from "./models/games.js";
 import Game from "./models/games.js";
 import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents.js";
 import User from "./models/users.js";
+import {disconnectGame} from "./controllers/games.js";
 //Test de la connexion
 try {
 	sequelize.authenticate();
@@ -148,6 +149,8 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 
 	socket.on(PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT, async (data) => {
 		console.log("Game player disconnect", data)
+
+		await disconnectGame(data.gameId, data.playerId)
 
 		socket.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT, {
 			'gameId': data.gameId,
