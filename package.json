@@ -6,7 +6,7 @@
 	"author": "blueskunka",
 	"type": "module",
 	"dependencies": {
-		"@blueskunka/poke-battle-package": "^2.0.1",
+		"@blueskunka/poke-battle-package": "^2.1.0",
 		"@fastify/cors": "^10.0.0",
 		"@fastify/jwt": "^9.0.0",
 		"@fastify/swagger": "^9.0.0",
@@ -24,6 +24,7 @@
 		"socket.io": "^4.8.0"
 	},
 	"scripts": {
-		"dev": "node --watch src/server.js"
+		"dev": "node --watch src/server.js",
+		"bump": "yarn add @blueskunka/poke-battle-package"
 	}
 }
