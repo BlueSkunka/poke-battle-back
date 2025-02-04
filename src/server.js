@@ -19,6 +19,12 @@ import Game from "./models/games.js";
 import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents.js";
 import User from "./models/users.js";
 import {disconnectGame, startGame} from "./controllers/games.js";
+import pokemon from "./models/pokemon.js";
+import pokemonAttack from "./models/pokemonAttack.js";
+import pokemonType from "./models/pokemonType.js";
+import playerPokemon from "./models/playerPokemon.js";
+import pokemonTypeEffect from "./models/pokemonTypeEffect.js";
+import playerPokemonTeam from "./models/playerPokemonTeam.js";
 //Test de la connexion
 try {
 	sequelize.authenticate();

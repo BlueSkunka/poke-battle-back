@@ -1,6 +1,5 @@
 import {sequelize} from "../bdd.js";
 import {DataTypes} from "@sequelize/core";
-import Pokemon from "./pokemon.js";
 
 const PokemonType = sequelize.define("pokemon_type", {
     id: {
@@ -17,7 +16,5 @@ const PokemonType = sequelize.define("pokemon_type", {
         allowNull: false
     }
 })
-
-PokemonType.belongsToMany(Pokemon, {through: 'pokemon_pokemon_type'})
 
 export default PokemonType;

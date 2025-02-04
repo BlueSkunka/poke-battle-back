@@ -1,7 +1,6 @@
 import {sequelize} from "../bdd.js";
 import {DataTypes} from "@sequelize/core";
 import PokemonType from "./pokemonType.js";
-import Pokemon from "./pokemon.js";
 
 const PokemonAttack = sequelize.define("pokemon_attack", {
     id: {
@@ -21,6 +20,5 @@ const PokemonAttack = sequelize.define("pokemon_attack", {
 })
 
 PokemonAttack.belongsTo(PokemonType, {targetKey: "id", foreignKey: "pokemonType"})
-PokemonAttack.belongsToMany(Pokemon, {through: "pokemon_pokemon_attack"})
 
 export default PokemonAttack;

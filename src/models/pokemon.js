@@ -43,7 +43,18 @@ const Pokemon = sequelize.define("pokemon", {
     },
 })
 
-Pokemon.belongsToMany(PokemonType, {through: 'pokemon_pokemon_type'})
+Pokemon.belongsTo(PokemonType, {
+    targetKey: 'id',
+    foreignKey: 'type_primary',
+    as: 'type_one'
+})
+Pokemon.belongsTo(PokemonType, {
+    allowNull: true,
+    targetKey: 'id',
+    foreignKey: 'type_secondary',
+    as: 'type_two'
+})
 Pokemon.belongsToMany(PokemonAttack, {through: 'pokemon_pokemon_attack'})
+PokemonAttack.belongsToMany(Pokemon, {through: "pokemon_pokemon_attack"})
 
 export default Pokemon;
