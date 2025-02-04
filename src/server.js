@@ -18,7 +18,7 @@ import games from "./models/games.js";
 import Game from "./models/games.js";
 import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents.js";
 import User from "./models/users.js";
-import {disconnectGame} from "./controllers/games.js";
+import {disconnectGame, startGame} from "./controllers/games.js";
 //Test de la connexion
 try {
 	sequelize.authenticate();
@@ -173,6 +173,16 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 		socket.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_UNREADY, {
 			'gameId': data.gameId,
 			'playerId': data.playerId
+		})
+	})
+
+	socket.on(PokeBattleSocketEvents.GAME_START, async (data) => {
+		console.log("Game start", data)
+
+		const game = await startGame(data.gameId)
+
+		socket.nsp.to(data.gameId).emit(PokeBattleSocketEvents.GAME_START, {
+			game: game
 		})
 	})
 })

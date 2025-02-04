@@ -1,5 +1,6 @@
 import Game from "../models/games.js";
 import generateJoiningCode from "../services/gameService.js";
+import {PokeBattleGameState} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleGameState.js";
 
 export async function createGame(userId) {
 	if (!userId) {
@@ -105,4 +106,12 @@ export async function fetchGame(request) {
 
 export async function listGame() {
 	return await Game.findAll();
+}
+
+export async function startGame(gameId) {
+	const game = await Game.findByPk(gameId);
+
+	game.state = PokeBattleGameState.PLAYING;
+
+	return game.save()
 }
