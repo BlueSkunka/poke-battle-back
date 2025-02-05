@@ -25,6 +25,8 @@ import pokemonType from "./models/pokemonType.js";
 import playerPokemon from "./models/playerPokemon.js";
 import pokemonTypeEffect from "./models/pokemonTypeEffect.js";
 import playerPokemonTeam from "./models/playerPokemonTeam.js";
+import {pokemonsRoutes} from "./routes/pokemons.js";
+import {pokemonAttacksRoutes} from "./routes/pokemonAttacks.js";
 //Test de la connexion
 try {
 	sequelize.authenticate();
@@ -118,6 +120,10 @@ usersRoutes(app,blacklistedTokens);
 gamesRoutes(app);
 //gestion des routes de test
 pingRoutes(app);
+// Pokemons routes
+pokemonsRoutes(app)
+// Pokemon attacks routes
+pokemonAttacksRoutes(app)
 
 /**********
  * SOCKET
