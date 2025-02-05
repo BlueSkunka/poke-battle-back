@@ -1,6 +1,7 @@
 import Game from "../models/games.js";
 import generateJoiningCode from "../services/gameService.js";
 import {PokeBattleGameState} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleGameState.js";
+import PlayerPokemonTeam from "../models/playerPokemonTeam.js";
 
 export async function createGame(userId) {
 	if (!userId) {
@@ -111,7 +112,19 @@ export async function listGame() {
 export async function startGame(gameId) {
 	const game = await Game.findByPk(gameId);
 
-	game.state = PokeBattleGameState.PLAYING;
+	const creatorTeam = await PlayerPokemonTeam.findOne({ where: { owner: game.creator } })
+	const playerTeam = await PlayerPokemonTeam.findOne({ where: { owner: game.player } })
 
-	return game.save()
+	game.state = PokeBattleGameState.PLAYING;
+	game.creatorTeam = creatorTeam.id;
+	game.playerTeam = playerTeam.id;
+
+	await game.save()
+
+	return await Game.findByPk(gameId, {
+		include: [
+			{association: 'creatorPokemonTeam'},
+			{association: 'playerPokemonTeam'}
+		],
+	});
 }

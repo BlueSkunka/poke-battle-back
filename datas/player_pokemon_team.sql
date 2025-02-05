@@ -13,22 +13,23 @@ set @doubleedge = (select id from pokemon_attacks where name = 'Double-Edge');
 set @triattack = (select id from pokemon_attacks where name = 'Tri Attack');
 set @weatherball = (select id from pokemon_attacks where name = 'Weather Ball');
 
-# insert into player_pokemons (id, createdAt, updatedAt, player, pokemon, attack_one, attack_two, attack_three,
-#                              attack_four)
-# values (uuid(), now(), now(), @sacha, @gengar, @tackle, @doubleedge, @triattack, @weatherball),
-#        (uuid(), now(), now(), @sacha, @primeape, @tackle, @doubleedge, @triattack, @weatherball),
-#        (uuid(), now(), now(), @sacha, @charizard, @tackle, @doubleedge, @triattack, @weatherball),
-#        (uuid(), now(), now(), @ondine, @blastoise, @tackle, @doubleedge, @triattack, @weatherball),
-#        (uuid(), now(), now(), @ondine, @dragonite, @tackle, @doubleedge, @triattack, @weatherball),
-#        (uuid(), now(), now(), @ondine, @jynx, @tackle, @doubleedge, @triattack, @weatherball);
+set @sacha_gengar = 'dbd2173a-6cbb-43c5-891b-86d1f4e8ab9a';
+set @sacha_char = '83f83f59-15ec-4c79-8056-303b15ac0ddd';
+set @sacha_prime = 'c4365fd8-5296-4fd0-8d58-b39792de387e';
+set @ondine_bla = '4cd0534e-524d-436c-994b-32f8a8116040';
+set @ondine_dra = 'f1bff478-2677-4bcc-8b3a-619f252dcc20';
+set @ondine_jyn = '743519f2-38fd-4d4a-a99c-36de085578f6';
 
-set @sacha_gengar = (select id from player_pokemons where id = '27aa9ee6-e376-11ef-83ff-00155d8c27b0');
-set @sacha_char = (select id from player_pokemons where id = '27aabb2c-e376-11ef-83ff-00155d8c27b0');
-set @sacha_prime = (select id from player_pokemons where id = '27aabc9e-e376-11ef-83ff-00155d8c27b0');
-set @ondine_bla = (select id from player_pokemons where id = '27aabd20-e376-11ef-83ff-00155d8c27b0');
-set @ondine_dra = (select id from player_pokemons where id = '27aabd80-e376-11ef-83ff-00155d8c27b0');
-set @ondine_jyn = (select id from player_pokemons where id = '27aabddd-e376-11ef-83ff-00155d8c27b0');
+insert into player_pokemons (id, createdAt, updatedAt, player, pokemon, attack_one, attack_two, attack_three,
+                             attack_four)
+values (@sacha_gengar, now(), now(), @sacha, @gengar, @tackle, @doubleedge, @triattack, @weatherball),
+       (@sacha_prime, now(), now(), @sacha, @primeape, @tackle, @doubleedge, @triattack, @weatherball),
+       (@sacha_char, now(), now(), @sacha, @charizard, @tackle, @doubleedge, @triattack, @weatherball),
+       (@ondine_bla, now(), now(), @ondine, @blastoise, @tackle, @doubleedge, @triattack, @weatherball),
+       (@ondine_dra, now(), now(), @ondine, @dragonite, @tackle, @doubleedge, @triattack, @weatherball),
+       (@ondine_jyn, now(), now(), @ondine, @jynx, @tackle, @doubleedge, @triattack, @weatherball);
+
 
 insert into player_pokemon_teams (id, name, createdAt, updatedAt, owner, pokemon_one, pokemon_two, pokemon_three)
-values (uuid(), 'Sacha team', now(), now(), @sacha, @sacha_gengar, @sacha_char, @sacha_prime),
-       (uuid(), 'Ondine team', now(), now(), @ondine, @ondine_bla, @ondine_dra, @ondine_jyn);
+values ('17e88db4-75f3-4d1e-bda2-1ea914c026be', 'Sacha team', now(), now(), @sacha, @sacha_gengar, @sacha_char, @sacha_prime),
+       ('1ebd483b-bf0a-447d-8237-bc4e9955be30', 'Ondine team', now(), now(), @ondine, @ondine_bla, @ondine_dra, @ondine_jyn);

@@ -1,6 +1,7 @@
 import { DataTypes } from "@sequelize/core";
 import { sequelize } from "../bdd.js";
 import User from "./users.js";
+import PlayerPokemonTeam from "./playerPokemonTeam.js";
 
 const Game = sequelize.define("game", {
 	id: {
@@ -39,6 +40,18 @@ Game.belongsTo(User, {
 	targetKey: "id",
 	foreignKey: "winner",
 	as: "winPlayer",
+});
+Game.belongsTo(PlayerPokemonTeam, {
+	targetKey: "id",
+	foreignKey: "creatorTeam",
+	as: "creatorPokemonTeam",
+	allowNull: true
+});
+Game.belongsTo(PlayerPokemonTeam, {
+	targetKey: "id",
+	foreignKey: "playerTeam",
+	as: "playerPokemonTeam",
+	allowNull: true
 });
 
 export default Game;
