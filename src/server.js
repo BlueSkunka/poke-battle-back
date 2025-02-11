@@ -173,7 +173,7 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 	socket.on(PokeBattleSocketEvents.GAME_PLAYER_READY, async (data) => {
 		console.log('player is ready', data)
 
-		socket.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_READY, {
+		socket.nsp.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_READY, {
 			'gameId': data.gameId,
 			'playerId': data.playerId
 		})
@@ -182,7 +182,7 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 	socket.on(PokeBattleSocketEvents.GAME_PLAYER_UNREADY, async (data) => {
 		console.log('player is not ready', data)
 
-		socket.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_UNREADY, {
+		socket.nsp.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_UNREADY, {
 			'gameId': data.gameId,
 			'playerId': data.playerId
 		})
