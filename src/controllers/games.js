@@ -2,6 +2,7 @@ import Game from "../models/games.js";
 import generateJoiningCode from "../services/gameService.js";
 import {PokeBattleGameState} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleGameState.js";
 import PlayerPokemonTeam from "../models/playerPokemonTeam.js";
+import {Op} from "sequelize";
 
 export async function createGame(userId) {
 	if (!userId) {
@@ -87,6 +88,21 @@ export async function updateGame(request) {
 	}
 	game.save();
 	return game;
+}
+
+export async function fetchGameByUser(request) {
+	const {userId} = request.params;
+
+	if (!userId) return {error: "Invalid player id"}
+
+	return await Game.findAll({
+		attributes: ['winner', 'creator', 'player', 'createdAt'],
+		where: {
+			[Op.or]: [{creator: userId}, {player: userId}],
+			// [Op.or]: [{state: PokeBattleGameState.ABANDONED}, {state: PokeBattleGameState.FINISHED}]
+		},
+		order: [['createdAt', 'DESC']]
+	})
 }
 
 export async function fetchGame(request) {

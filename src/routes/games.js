@@ -1,4 +1,4 @@
-import {createGame, fetchGame, listGame, updateGame} from "../controllers/games.js";
+import {createGame, fetchGame, fetchGameByUser, listGame, updateGame} from "../controllers/games.js";
 export function gamesRoutes(app) {
 	// liste des parties joignables
 	app.get(
@@ -24,6 +24,14 @@ export function gamesRoutes(app) {
 			reply.send(await updateGame(request));
 		}
 	);
+	// Récupérer la liste des parties passées pour un joueur
+	app.get(
+		"/game/:userId",
+		{preHandler: [app.authenticate]},
+		async (request, reply) => {
+			reply.send(await fetchGameByUser(request))
+		}
+	)
 	//récupérer une partie
 	app.get(
 		"/game/:gameId/:userId",
