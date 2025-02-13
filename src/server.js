@@ -18,7 +18,7 @@ import games from "./models/games.js";
 import Game from "./models/games.js";
 import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents.js";
 import User from "./models/users.js";
-import {disconnectGame, startGame} from "./controllers/games.js";
+import {abandonGame, disconnectGame, startGame} from "./controllers/games.js";
 import pokemon from "./models/pokemon.js";
 import pokemonAttack from "./models/pokemonAttack.js";
 import pokemonType from "./models/pokemonType.js";
@@ -196,6 +196,19 @@ app.io.on(PokeBattleSocketEvents.CONNECTION, (socket) => {
 		socket.nsp.to(data.gameId).emit(PokeBattleSocketEvents.GAME_START, {
 			game: game
 		})
+	})
+
+	socket.on(PokeBattleSocketEvents.GAME_PLAYER_ABANDON, async (data) => {
+		const game = await abandonGame(data.playerId, data.gameId)
+
+		socket.leave(data.gameId)
+		socket.to(data.gameId).emit(PokeBattleSocketEvents.GAME_PLAYER_ABANDON, {
+			game: game
+		})
+	})
+
+	socket.on(PokeBattleSocketEvents.GAME_ENDED, async (data) => {
+		socket.leave(data.gameId)
 	})
 })
 

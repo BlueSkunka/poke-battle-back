@@ -144,3 +144,11 @@ export async function startGame(gameId) {
 		],
 	});
 }
+
+export async function abandonGame(playerId, gameId) {
+	const game = await Game.findByPk(gameId);
+	game.winner = game.dataValues.creator === playerId ? game.dataValues.player : game.dataValues.creator
+	game.state = PokeBattleGameState.FINISHED
+
+	return await game.save()
+}
