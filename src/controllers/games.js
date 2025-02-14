@@ -122,7 +122,9 @@ export async function fetchGame(request) {
 }
 
 export async function listGame() {
-	return await Game.findAll();
+	return await Game.findAll({
+		where: {state: PokeBattleGameState.PENDING}
+	});
 }
 
 export async function startGame(gameId) {
