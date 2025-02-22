@@ -35,3 +35,30 @@ Exécuter les scripts SQL dans l'ordre suivant (situé dans le dossier `poke-bat
 ## Démarrage
 
 Démarrer le serveur backend en premier puis l'application React grâce à la commande `npm run dev`, exécuté dans les dossiers respectifs. 
+
+## Informations
+
+- Connexion et inscription fonctionnel ✔️
+- Envoie du mail fonctionnel ✔️
+- Validation du compte oublié ❎
+- Contrôle des saisies formulaire fonctionnelles avec Yup ✔️
+- Création d'une partie fonctionnelle ✔️
+- Rejoindre une partie fonctionnelle (hôte prévenus par un message toast) ✔️
+- Statut "Joueur prêt" fonctionnelle ✔️
+- Bouton démarrer la partie fonctionnel ✔️
+- Partie non fonctionnelle ❎
+- Abandon de la partie et écran de victoire / défaite ✔️
+- Système de création d'une équipe pour un joueur non fonctionnel ❎
+- Quitter / Rejoindre une partie en cours non fonctionnel ❎
+- Historique des parties du joueur ✔️
+- Application responsive ✔️
+- Design sympa ✔️ (j'espère)
+- Application non en ligne ❎
+
+## Avis
+J'aurais dû prendre le temps d'explorer la gestion de store sur React car j'ai eu trop de problèmes avec la gestion des fonctions callback pour les évènements Socket, ce qui m'a fait perdre beaucoup de temps et de motivation. 
+J'ai essayé de suivre une architecture atomic design mais ça ne me correspond pas. 
+Tout de même une bonne appréciation de React avec l'utilisation de composant générique et réutilisable facilement. 
+Quelques difficultés à typer correctement les composants et contexte au début mais super clean une fois pris en main. 
+Mauvaises compréhension avec le cycle de vie d'un composant React et la gestion des states. 
+
