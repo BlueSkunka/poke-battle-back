@@ -36,6 +36,11 @@ Exécuter les scripts SQL dans l'ordre suivant (situé dans le dossier `poke-bat
 
 Démarrer le serveur backend en premier puis l'application React grâce à la commande `npm run dev`, exécuté dans les dossiers respectifs. 
 
+## Comptes utilisateurs
+Email: sacha@yopmail.com
+Email: ondine@yopmail.com
+Mot de passe pour les deux comptes: Password02+
+
 ## Informations
 
 - Connexion et inscription fonctionnel ✔️
@@ -54,6 +59,8 @@ Démarrer le serveur backend en premier puis l'application React grâce à la co
 - Application responsive ✔️
 - Design sympa ✔️ (j'espère)
 - Application non en ligne ❎
+
+⚠️ Le lancement de la partie n'est fonctionnelle qu'avec les comtpes pré crées car la partie emande à ce que le joueur choisisse une équipe Pokémon, fonctionnalité qui n'a pas aboutis ⚠️
 
 ## Avis
 J'aurais dû prendre le temps d'explorer la gestion de store sur React car j'ai eu trop de problèmes avec la gestion des fonctions callback pour les évènements Socket, ce qui m'a fait perdre beaucoup de temps et de motivation. 
